@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <title>{% block title %}{% endblock %}Jeffrey Lu</title>
+  <link rel='stylesheet' type='text/css' href='/code.css'>
+</head>
+
+<body>
+  <header>
+    This is a header.
+  </header>
+
+  {% block content %}{{ content }}{% endblock %}
+
+  <footer>
+    This is a footer.
+  </footer>
+</body>
+
+</html>
