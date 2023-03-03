@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jeffreylu
+  labels:
+    app: jeffreylu
+spec:
+  selector:
+    app: jeffreylu
+    tier: web
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: LoadBalancer
+  # This IP address has probably already been released.
+  # A new one will have to be generated with the command:
+  #   gcloud compute addresses create [NAME] --region [REGION]
+  loadBalancerIP: 34.67.234.254
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jeffreylu
+  labels:
+    app: jeffreylu
+spec:
+  selector:
+    matchLabels:
+      app: jeffreylu
+      tier: web
+  template:
+    metadata:
+      labels:
+        app: jeffreylu
+        tier: web
+    spec:
+      containers:
+      - name: jeffreylu
+        # Container image path, as registered with Artifact Registry
+        image: ${REGION}-docker.pkg.dev/${PROJECT}/${REPO}/jeffreylu:dev
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: 250m
+
+---

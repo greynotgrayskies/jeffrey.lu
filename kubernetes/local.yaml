@@ -1,0 +1,40 @@
+# Using a LoadBalancer service locally will require running the following
+# command to expose it:
+#   minikube tunnel
+apiVersion: v1
+kind: Service
+metadata:
+  name: jeffreylu
+spec:
+  selector:
+    app: jeffreylu
+  ports:
+  - protocol: "TCP"
+    port: 8000
+    targetPort: 8080
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jeffreylu
+spec:
+  # DeploymentSpec
+  selector:
+    matchLabels:
+      app: jeffreylu
+  replicas: 1
+  template:
+    # PodTemplateSpec
+    metadata:
+      labels:
+        app: jeffreylu
+    spec:
+      # PodSpec
+      containers:
+      - name: jeffreylu
+        image: jeffrey.lu:dev
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
